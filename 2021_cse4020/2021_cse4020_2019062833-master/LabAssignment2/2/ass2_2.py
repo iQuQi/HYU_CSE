@@ -1,0 +1,68 @@
+import glfw
+import numpy as np
+from OpenGL.GL import *
+import math
+
+input_key=0
+
+def keyboard(window, key, scancode, action, mods):
+        global input_key
+        if action==glfw.PRESS:
+            if (key-48) < 10 and 0<(key-48):
+                input_key =key-48
+            elif (key-48)==0:
+                input_key = 10;
+            elif key==glfw.KEY_Q:
+                input_key=11
+            elif key==glfw.KEY_W:
+                input_key =12
+
+def render():
+    global input_key
+    time= 12
+    space= 2 * np.pi / time
+    start = np.pi/2
+    end = 2*np.pi+np.pi/2
+
+    glClear(GL_COLOR_BUFFER_BIT)
+    glLoadIdentity()
+  
+    glBegin(GL_LINE_LOOP)
+    for rad in np.arange(start, end, space):
+        glVertex2fv((np.cos(rad), np.sin(rad)))
+    glEnd()
+
+    glBegin(GL_LINES)
+    glVertex2f(0,0)
+
+    glVertex2f(np.cos(start-space*input_key),np.sin(start-space*input_key))
+  
+
+    glEnd()
+
+
+    
+def main():
+    if not glfw.init(): return
+    window=glfw.create_window(480,480,"2019062833",None,None)
+    if not window:
+        glfw.terminate()
+        return
+
+    glfw.set_key_callback(window, keyboard)
+    glfw.make_context_current(window)
+
+    render()
+    while not glfw.window_should_close(window):
+        glfw.poll_events()
+        render()
+        glfw.swap_buffers(window)
+
+
+    glfw.terminate()
+
+if __name__ == "__main__":
+    main()
+
+
+            
