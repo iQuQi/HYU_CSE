@@ -4,6 +4,7 @@ import Timer from './Timer';
 import TimerUp from './TimerUp'
 import TimerControl from './TimerControl';
 import TimerAnimation from './TimerAnimation';
+import TimerTitle from './TimerTitle';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -26,6 +27,8 @@ class TimerPannel extends Component{
 
 		timerValue : time,
 		timerTitle: "",
+		currentTitle: "",
+
 		helperText: ""
 		};
 	}
@@ -139,7 +142,7 @@ class TimerPannel extends Component{
 			this.setState({
 				errorTextField: false,
 				helperTextField: "",
-
+				currentTitle: timerTitle,
 				timerTitle: "",
 				timerValue,
 				remained: timerValue
@@ -151,7 +154,7 @@ class TimerPannel extends Component{
 	}
 
 	render() {
-		let {errorTextField, helperTextField,timerTitle,timerValue,initialized,remained, activated, paused,helperText} =this.state;
+		let {errorTextField,currentTitle ,helperTextField,timerTitle,timerValue,initialized,remained, activated, paused,helperText} =this.state;
 		return (<Card sx={{maxWidth : 360}}>
 			<CardActionArea>
 			<CardMedia component="img" height = "140" 
@@ -162,6 +165,7 @@ class TimerPannel extends Component{
 				initialized={initialized}
 				activated = {activated}
 				paused ={paused} />
+			<TimerTitle activated ={activated} taskTitle = {currentTitle}/>
 			<Timer remained={remained} />
 			<TimerForm
 				errorTextField = {errorTextField}
@@ -178,14 +182,14 @@ class TimerPannel extends Component{
 				activated = {activated}
 				paused = {paused}
 				handleStopTimer = {this.handleStopTimer}
-				handleStartTimer = {this.handleStartTimer}
+				handleStartTimer = {this.handleSubmit}
 				handlePauseTimer = {this.handlePauseTimer}
 				handleResumeTimer = {this.handleResumeTimer}
 				/>
 			<TimerUp 
 				handleClose = {this.handleStopTimer}
 				open = {remained <= 0}
-			/>i
+			/>
 			</CardContent>
 			</CardActionArea>
 			</Card>);

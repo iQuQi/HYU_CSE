@@ -3,9 +3,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
+let marks=[
+{value: 5,label: '5 min'},{value: 30, label: '30 max'}
+];
+
 let TimerForm = ({errorTextField,helperTextField,timerTitle,timerValue,
 activated,handleChangeSlider,handleSubmit,
-handleChangeTextField,helperText}) => <Container>
+handleChangeTextField,helperText}) => !activated&&<Container>
 		<div style = {{width : '280px'}}>
 			<form onSubmit={handleSubmit}>
 			<TextField
@@ -23,6 +27,8 @@ handleChangeTextField,helperText}) => <Container>
 				disabled = {activated}
 				id = "slider"
 				value = {timerValue/60}
+				valuelabelDisplay="auto"
+				marks={marks}
 				step = {5}
 				min = {0}
 				max = {30}
