@@ -30,8 +30,9 @@ handleChangeTextField,helperText}) => !activated&&<Container>
 				valuelabelDisplay="auto"
 				marks={marks}
 				step = {5}
-				min = {0}
-				max = {30}
+				min ={0}
+
+				max = {40}
 				onChange = {handleChangeSlider}/>
 			</form>
 			</div>

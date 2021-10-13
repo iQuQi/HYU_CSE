@@ -3,7 +3,6 @@ import TimerForm from './Form'
 import Timer from './Timer';
 import TimerUp from './TimerUp'
 import TimerControl from './TimerControl';
-import TimerAnimation from './TimerAnimation';
 import TimerTitle from './TimerTitle';
 import TimerHistory from './TimerHistory';
 
@@ -36,6 +35,7 @@ class TimerPannel extends Component{
 		timerValue : time,
 		timerTitle: "",
 		currentTitle: "",
+		currentTask: {},
 
 		helperText: "",
 
@@ -92,6 +92,7 @@ class TimerPannel extends Component{
 		this.setState(()=>{
 			//남은 시간을 초기화 한다
 			return	{
+			currentTask: {},
 			initialized: false,
 			activated: false,
 			remained  : timerValue
@@ -138,7 +139,7 @@ class TimerPannel extends Component{
 		e.preventDefault();
 		console.log(e.target);
 
-		let {timerTitle,timerValue,history} =this.state;
+		let { timerTitle,timerValue,history} =this.state;
 
 		if(timerTitle === ""){
 			this.setState(
@@ -149,18 +150,16 @@ class TimerPannel extends Component{
 			);
 		}else{
 		//리프레시를 막았기때문에 폼 초기화를 해줘야 함
+			let newTask = {id:history.length, 
+			title: timerTitle, 
+			duration: timerValue};
+
 			this.setState({
 				errorTextField: false,
 				helperTextField: "",
 				currentTitle: timerTitle,
-				timerValue,
-				remained: timerValue,
-
-				history: [...history, {
-				id:history.length,
-				title: timerTitle,
-				duration: timerValue}
-				],
+				currentTask: newTask,
+				history: [...history, newTask],
 				timerTitle: ""
 
 			});
@@ -171,18 +170,20 @@ class TimerPannel extends Component{
 	}
 
 	render() {
-		let {history,errorTextField,currentTitle ,helperTextField,timerTitle,timerValue,initialized,remained, activated, paused,helperText} =this.state;
+		let {currentTask,history,errorTextField,currentTitle ,helperTextField,timerTitle,timerValue,initialized,remained, activated, paused,helperText} =this.state;
 		return (<Card sx={{maxWidth : 360}}>
 			<CardActionArea>
-			<CardMedia component="img" height = "140" 
+			<CardMedia component="img" height = {140} 
 			image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
           	alt="green iguana" />
 			<CardContent>
-			<TimerAnimation 
-				initialized={initialized}
-				activated = {activated}
-				paused ={paused} />
-			<TimerHistory history={history} />
+			<TimerHistory 
+			activated={activated}
+			history={history} 
+			currentTask={currentTask}
+			paused= {paused}
+			initialized={initialized}
+			/>
 			<TimerTitle activated ={activated} taskTitle = {currentTitle}/>
 			<Timer remained={remained} />
 			<TimerForm

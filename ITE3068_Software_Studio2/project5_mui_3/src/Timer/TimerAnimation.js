@@ -4,8 +4,7 @@ let TimerAnimation = ({initialized,activated,paused}) =>
 	{
 	return <HourglassEmptyIcon
 		className = {initialized? "App-logo" : ""}
-		htmlColor="blue"
-		sx={{fontSize: 100,
+		sx={{fontSize: '100px', 
 		animationPlayState : (!paused && activated)? "running" : "paused"}}
 		/>
 	}
