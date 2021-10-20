@@ -11,7 +11,9 @@ import Typography from '@mui/material/Typography';
 import TimerAnimation from './TimerAnimation'
 //map 으로 한경우 key  프로퍼티가 필요하데
 let TimerHistory = ({currentTask,activated,history,initialized,paused}) => 
-	<Timeline position = "right" sx={{mt: 0 , mb: 0}}>
+//right이 디폴트 값이며 메인콘텐츠의 방향을 의미
+		  //Dot은 아이콘과 색상을 가질 수 있음
+<Timeline position = "right" sx={{mt: 0 , mb: 0}}>
 		{history && history.map((item,index) =>
 	currentTask && currentTask.id == item.id ?
       <TimelineItem key={'task_'+item.id}>

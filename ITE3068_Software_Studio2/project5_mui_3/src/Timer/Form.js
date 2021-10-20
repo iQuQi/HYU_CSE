@@ -7,6 +7,10 @@ let marks=[
 {value: 5,label: '5 min'},{value: 30, label: '30 max'}
 ];
 
+//컨테이너로 감싸면 중앙정렬
+//my는 margin y 부분을 말함
+				//marks 라고만 적으면 step에 맞게 점 찍어줌
+				//step이 널이면 mark된 곳만 이동 가능
 let TimerForm = ({errorTextField,helperTextField,timerTitle,timerValue,
 activated,handleChangeSlider,handleSubmit,
 handleChangeTextField,helperText}) => !activated&&<Container>
@@ -15,7 +19,6 @@ handleChangeTextField,helperText}) => !activated&&<Container>
 			<TextField
 				error={errorTextField}
 				helperText={helperTextField}
-			//my는 margin y 부분을 말함
 				sx={{width:'100%', my : '10px'}}
 				value = {timerTitle}
 				id="timer-title"

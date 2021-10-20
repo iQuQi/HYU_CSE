@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const {graphqlHTTP} = require('express-graphql');
 const { graphql, buildSchema } = require('graphql');
 const db={
@@ -58,10 +59,14 @@ graphql(schema, '{ tasks {id title duration} }', root)
 //netstat -na | grep -i listen i
 //이라고 해보면 4000번 포틀가보일것
 let app = express();
+app.use(cors({
+origin:'*'}));
+
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
-  graphiql: true,
+  graphiql: true
 }));
+
 app.listen(4000,()=>console.log("now browse to localhost:4000/graphql"));
 

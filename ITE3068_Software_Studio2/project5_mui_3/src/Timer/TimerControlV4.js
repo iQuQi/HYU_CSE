@@ -9,6 +9,23 @@ let TimerControl=(prop)=>{
 
 	let fxs = [handleStopTimer, handleStartTimer, handlePauseTimer, handleResumeTimer];
 	let arr_disabled = [false,activated,paused || !activated, !paused || !activated];
+/*
+	return <Stack spacing = {1} direction = "column">
+			스탑 버튼- 시작 버튼/재시작 버튼/일시정지 버튼(조건에 따라 변경)
+			<Button variant = "contained" onClick = {handleStopTimer}>Stop</Button>
+			{	
+				활성화가 되지 않은 상황이면 시작 버튼이 표시됨
+				!activated ? 
+					<Button variant = "contained" onClick={handleStartTimer}>Start</Button> :
+					활성화가 된 상태
+					!paused ?
+						일시 정지가 되지 않은 상태라면 일시정지 버튼이 노출
+						<Button variant = "contained" onClick={handlePauseTimer}>Pasue</Button> :
+						일시 정지가 되어 있는 상태라면 재시작 버튼이 노출
+						<Button variant = "contained" onClick={handleResumeTimer}>Resume</Button> 
+			}			
+			</Stack>;
+*/
 //태그 내에 주석은 아래와 같이 처리함을 유의
 	return <ButtonGroup variant = "contained"
 		aria-label ="outline primary button group">

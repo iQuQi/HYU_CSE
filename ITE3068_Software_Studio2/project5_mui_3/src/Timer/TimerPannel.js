@@ -10,19 +10,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-
-const history = [
-	{id: 0, title: '1',duration: 100},
-	{id: 1, title: '2',duration: 100},
-	{id: 2, title: '3',duration: 100},
-	{id: 3, title: '4',duration: 100},
-	{id: 4, title: '5',duration: 100}
-];
-
+import Axios from "axios";
 let time = 1500;
 class TimerPannel extends Component{
 	constructor(){
 		super();
+		
+
 		this.state = {
 		initialized : false,
 		remained: time,
@@ -39,8 +33,18 @@ class TimerPannel extends Component{
 
 		helperText: "",
 
-		history: history
+		history: []
 		};
+	}
+
+	
+	componentDidMount(){
+
+		Axios.post('http://localhost:4000/graphql',
+		{ 'query': '{tasks {id title duration}}','variables': null},
+		{'Content-Type' : 'application/json'})
+		.then(res => this.setState({history: res.data.data.tasks}))
+		.catch(e=>console.log(e));
 	}
 
 	handleStartTimer = () => {
@@ -138,7 +142,8 @@ class TimerPannel extends Component{
 	handleSubmit = e =>{
 		e.preventDefault();
 		console.log(e.target);
-
+		// e.target을 뽑으면 폼 요소가 전달됨
+		//[...e.target] -> 유사배열이므로 spread 연산자를 통해서 array로 만들수있음
 		let { timerTitle,timerValue,history} =this.state;
 
 		if(timerTitle === ""){
@@ -150,10 +155,18 @@ class TimerPannel extends Component{
 			);
 		}else{
 		//리프레시를 막았기때문에 폼 초기화를 해줘야 함
-			let newTask = {id:history.length, 
+		/*let newTask = {id:history.length, 
 			title: timerTitle, 
 			duration: timerValue};
-
+		*/
+			Axios.post('http://localhost:4000/graphql',
+			{ 'query': 
+			`mutation{ addTask( title: "${timerTitle}", duration : ${timerValue})
+			{id title duration}}`,
+			'variables': null},
+			{'Content-Type' : 'application/json'})
+			.then(res =>{ 
+			let newTask = res.data.data.addTask;
 			this.setState({
 				errorTextField: false,
 				helperTextField: "",
@@ -164,7 +177,7 @@ class TimerPannel extends Component{
 
 			});
 			this.handleStartTimer();
-			console.log(this.state.history);
+			}).catch(e=> console.log(e));
 		}
 
 	}
@@ -173,7 +186,8 @@ class TimerPannel extends Component{
 		let {currentTask,history,errorTextField,currentTitle ,helperTextField,timerTitle,timerValue,initialized,remained, activated, paused,helperText} =this.state;
 		return (<Card sx={{maxWidth : 360}}>
 			<CardActionArea>
-			<CardMedia component="img" height = {140} 
+			<CardMedia component="img" height = {140}
+			//이거 로컬 주소가 아닌 원격 주소로 바꿔줘야 함
 			image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
           	alt="green iguana" />
 			<CardContent>

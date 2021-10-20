@@ -8,9 +8,10 @@ let TimerControl=(prop)=>{
 
 	let fxs = [handleStopTimer, handleStartTimer, handlePauseTimer, handleResumeTimer];
 	let arr_disabled = [false,activated,paused || !activated, !paused || !activated];
-
-//태그 내에 주석은 아래와 같이 처리함을 유의
-	return <Stack spacing = {1} direction = "row">
+	//스택이 수직 혹은 수평축을 기죽으로 직계 자식을 정렬하고
+	//spacing과 divider도 옵션으로 추가 가능
+	//Grid 라는 걸 사용할수도 있음 -> 반응형 웹을 쉽게 구현 가능. 12 column 그리드 레이아웃
+return <Stack spacing = {1} direction = "row">
 			{['Stop', 'Start','Pause', 'Resume' ].map((item,index)=>
 			
 			<Button  
