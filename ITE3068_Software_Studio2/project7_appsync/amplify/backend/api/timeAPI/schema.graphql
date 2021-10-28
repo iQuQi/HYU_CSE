@@ -1,0 +1,10 @@
+type Task @model @key(
+name: "byCreatedAt"
+fields: ["groupId","createdAt"]
+queryField: "taskByCreatedAt") {
+  id: ID!
+  groupId: ID!
+  title: String!
+  duration: Int!
+  createdAt:AWSDateTime!
+}
