@@ -13,6 +13,8 @@ gamma = 0.9
 bomb = -100
 goal = 100
 bonus = 1
+
+visited = []
     
 def init_table():
     global max_x,max_y
@@ -48,7 +50,7 @@ def read_file(file_name):
         for j in range(max_y):
             if play_map[i][j] == 'S':
                 start = 5*i+j
-                break
+       
     return
 
 
@@ -70,10 +72,10 @@ def start_game():
         done = False
         new_q = 0
         delayed_q = gamma * max(list(q_table[next_point].values()))
-        #If Goal Point -> Game Over
+        #If Goal Point
         if play_map[next_point//5][next_point%5] == 'G':
-            done = True
             new_q = goal + delayed_q
+            done = True
             end = next_point
 
         #If Bomb -> Game Over
@@ -92,7 +94,7 @@ def start_game():
         #Update Q value
         q_table[now_point][next_point] = new_q
 
-        #If Game is over, update max Q value
+        #If Game is over
         if done:
             return
         
@@ -108,7 +110,7 @@ def write_file(file_name):
         print(str(cnt)+":" +str(i))
     '''
     max_q = sorted(q_table[start].items(),reverse=True, key=operator.itemgetter(1))[0][1]
-
+    
     with open(file_name,'w') as fp:
         now_point = start
         while True:
@@ -135,7 +137,7 @@ def assignment_2():
     #read file
     read_file('input.txt')
     #iteration 
-    for i in range(100000):
+    for i in range(10000):
         start_game()
 
     #write file
